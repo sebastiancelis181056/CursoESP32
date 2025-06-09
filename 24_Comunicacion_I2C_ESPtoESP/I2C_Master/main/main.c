@@ -12,6 +12,14 @@
 
 static const char *tag = "i2c-master";
 
+static void copy_array(uint8_t *dest, uint8_t *src, size_t len)
+{
+    for (size_t i = 0; i < len; i++)
+    {
+        dest[i] = src[i];
+    }
+}
+
 static esp_err_t set_i2c(void)
 {
     i2c_config_t i2c_config = {};
@@ -31,20 +39,52 @@ static esp_err_t set_i2c(void)
 
 void app_main(void)
 {
-    uint8_t rx_data[8];
-    uint8_t command = 0x00;
+    uint8_t rx_data[RX_BUFFER_LEN];
+    uint8_t command[12];
+    uint8_t command_led_r[12] = "LEDR";
+    uint8_t command_led_g[12] = "LEDG";
+    uint8_t command_led_b[12] = "LEDB";
+    uint8_t count = 0;
+
     ESP_ERROR_CHECK(set_i2c());
+
     while (1)
     {
+        count++;
+        if (count > 2)
+        {
+            count = 0;
+        }
+
+        switch (count) // Replace 'expression' with the actual condition or variable you want to check
+        {
+        case 0:
+            // R value
+            copy_array(&command, command_led_r, 12);
+            break;
+
+        case 1:
+            // G value
+            copy_array(&command, command_led_g, 12);
+            break;
+
+        case 2:
+            // B value
+            copy_array(&command, command_led_b, 12);
+            break;
+
+        default:
+            break;
+        }
         i2c_master_write_read_device(I2C_NUM_0,
                                      I2C_SLAVE_ADDR,
                                      &command,
-                                     1,
+                                     sizeof(command),
                                      rx_data,
-                                     8,
+                                     RX_BUFFER_LEN,
                                      pdMS_TO_TICKS(TIMEOUT_MS));
 
-        ESP_LOG_BUFFER_HEX(tag, rx_data, 8);
+        ESP_LOG_BUFFER_CHAR(tag, rx_data, 32);
         vTaskDelay(pdMS_TO_TICKS(DELAY_MS));
     }
 }

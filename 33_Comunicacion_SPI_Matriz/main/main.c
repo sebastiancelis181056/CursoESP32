@@ -4,10 +4,10 @@
 #include "freertos/task.h"
 #include "driver/spi_master.h"
 
-#define MOSI_GPIO 13
+#define MOSI_GPIO 13    //Din
 #define MISO_GPIO 12
-#define SPI_SCLK 14
-#define SPI_CS 15
+#define SPI_SCLK 14     //CLK
+#define SPI_CS 15       //CS
 
 #define DECODE_MODE_REG 0x9  // 0
 #define INTENSITY_REG 0xA    // 7
@@ -87,16 +87,16 @@ void app_main(void)
         spi_write(6, 0x81);
         spi_write(7, 0x81);
         spi_write(8, 0xFF);
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(100));
 
         spi_write(1, 0x0);
-        spi_write(2, 0x81);
-        spi_write(3, 0x81);
-        spi_write(4, 0x99);
-        spi_write(5, 0x99);
-        spi_write(6, 0x81);
-        spi_write(7, 0x81);
+        spi_write(2, 0x0);
+        spi_write(3, 0x0);
+        spi_write(4, 0x0);
+        spi_write(5, 0x0);
+        spi_write(6, 0x0);
+        spi_write(7, 0x0);
         spi_write(8, 0x0);
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

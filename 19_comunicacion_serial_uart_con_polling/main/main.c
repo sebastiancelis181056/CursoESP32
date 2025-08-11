@@ -10,7 +10,7 @@
 #define ledG 25
 #define ledB 26
 
-#define UART_NUM UART_NUM_2
+#define UART_NUM UART_NUM_0
 #define BUF_SIZE 1024
 #define TASK_MEMORY 2048
 
@@ -38,7 +38,7 @@ static void uart_task(void *pvParameters)
             continue;
         }
         //uart_write_bytes(UART_NUM, (const char *)data, len);
-        ESP_LOGI(tag, "Data received: %s", data);
+        //ESP_LOGI(tag, "Data received: %s", data);
 
         // Construir y enviar la respuesta "recibido <dato>"
         snprintf(response, sizeof(response), "recibido %s", data);
@@ -72,11 +72,11 @@ static void uart_task(void *pvParameters)
                 gpio_set_level(ledB, 0);
                 break;
             
-            default:
+            /*default:
                 gpio_set_level(ledR, 0);
                 gpio_set_level(ledG, 0);
                 gpio_set_level(ledB, 0);
-                break;
+                break;*/
             }
         }
     }
@@ -107,7 +107,8 @@ esp_err_t init_uart(void)
         .source_clk = UART_SCLK_APB,
     };
     uart_param_config(UART_NUM, &uart_config);
-    uart_set_pin(UART_NUM , 5, 4, UART_PIN_NO_CHANGE,UART_PIN_NO_CHANGE);
+    //uart_set_pin(UART_NUM , 5, 4, UART_PIN_NO_CHANGE,UART_PIN_NO_CHANGE);
+    uart_set_pin(UART_NUM , 1, 3, UART_PIN_NO_CHANGE,UART_PIN_NO_CHANGE);
     uart_driver_install(UART_NUM, BUF_SIZE, BUF_SIZE, 0, NULL, 0);
     xTaskCreate(uart_task,"uart_task",TASK_MEMORY,5,0,NULL);
     ESP_LOGI(tag, "init_uart completed!");

@@ -13,10 +13,10 @@ def close_app():
 
 # Conectar al puerto COM8
 try:
-    ser = serial.Serial("COM13", 9600)
-    print("Conectado a COM13")
+    ser = serial.Serial("COM3", 9600)
+    print("Conectado a COM3")
 except serial.SerialException:
-    print("No se pudo conectar a COM11")
+    print("No se pudo conectar a COM3")
     ser = None
 
 # Crear ventana principal
@@ -25,10 +25,10 @@ root.title("Control Serial")
 #root.geometry("400x400")
 
 # Botones
-btn_red = tk.Button(root, text="Rojo (R)", bg="red", fg="white", font=("Arial", 14), command=lambda: send_command('R'))
-btn_green = tk.Button(root, text="Verde (G)", bg="green", fg="white", font=("Arial", 14), command=lambda: send_command('G'))
-btn_blue = tk.Button(root, text="Azul (B)", bg="blue", fg="white", font=("Arial", 14), command=lambda: send_command('B'))
-btn_off = tk.Button(root, text="Apagar (O)", bg="gray", fg="white", font=("Arial", 14), command=lambda: send_command('O'))
+btn_red = tk.Button(root, text="Rojo (R)", bg="red", fg="white", font=("Arial", 14), command=lambda: send_command('LedRojo'))
+btn_green = tk.Button(root, text="Verde (G)", bg="green", fg="white", font=("Arial", 14), command=lambda: send_command('LedVerde'))
+btn_blue = tk.Button(root, text="Azul (B)", bg="blue", fg="white", font=("Arial", 14), command=lambda: send_command('LedAzul'))
+btn_off = tk.Button(root, text="Apagar (O)", bg="gray", fg="white", font=("Arial", 14), command=lambda: send_command('OFF'))
 
 btn_red.pack(pady=10)
 btn_green.pack(pady=10)
